@@ -1,12 +1,94 @@
 # 🏥 Hospital Management API
 
-A backend REST API for managing hospital operations such as **patients, doctors, departments, appointments, and medical records**.
+A backend REST API built with **FastAPI, SQLAlchemy, and PostgreSQL** for managing hospital patients and doctors.
 
-This project is being developed as a learning project using **FastAPI, SQLAlchemy, and PostgreSQL**, with a focus on understanding backend architecture, database operations, API development, and programming logic.
+## 🛠️ Technologies
 
-## 🚀 Project Goals
+* Python
+* FastAPI
+* Pydantic
+* SQLAlchemy
+* PostgreSQL
+* Uvicorn
+* psycopg2
 
-The main goal of this project is to build a real-world backend while understanding how data travels through a FastAPI application:
+## 📂 Project Structure
+
+```text
+hospital_api/
+│
+├── main.py
+├── database.py
+├── models.py
+├── schemas.py
+│
+└── routers/
+    ├── patients.py
+    └── doctors.py
+```
+
+## 👨‍⚕️ Patient Management
+
+The API currently supports CRUD operations for patients.
+
+### Patient Fields
+
+* ID
+* Name
+* Age
+* Gender
+* Phone
+* Address
+
+### Patient Endpoints
+
+```text
+POST   /patients/
+GET    /patients/
+GET    /patients/{patient_id}
+PUT    /patients/{patient_id}
+DELETE /patients/{patient_id}
+```
+
+## 👨‍⚕️ Doctor Management
+
+The API also supports CRUD operations for doctors.
+
+### Doctor Fields
+
+* ID
+* Name
+* Specialization
+* Phone
+* Email
+
+### Doctor Endpoints
+
+```text
+POST   /doctors/
+GET    /doctors/
+GET    /doctors/{doctor_id}
+PUT    /doctors/{doctor_id}
+DELETE /doctors/{doctor_id}
+```
+
+## 🗄️ Database
+
+The project uses **PostgreSQL** as the database and **SQLAlchemy ORM** for database operations.
+
+Current database tables:
+
+```text
+PostgreSQL
+   │
+   ├── patients
+   │
+   └── doctors
+```
+
+## 🔄 Request Flow
+
+The API follows this basic flow:
 
 ```text
 Client
@@ -26,257 +108,48 @@ Response
 Client
 ```
 
-Rather than building a large application all at once, the project is developed incrementally so each backend concept can be understood clearly.
-
-## 🛠️ Technologies
-
-* **Python**
-* **FastAPI**
-* **Pydantic**
-* **SQLAlchemy**
-* **PostgreSQL**
-* **Uvicorn**
-* **psycopg2**
-
-## 📂 Project Structure
+For example, when creating a patient:
 
 ```text
-hospital_api/
-│
-├── main.py
-├── database.py
-├── models.py
-├── schemas.py
-│
-└── routers/
-    ├── patients.py
-    └── doctors.py
+JSON
+ ↓
+PatientCreate
+ ↓
+patient
+ ↓
+Patient
+ ↓
+new_patient
+ ↓
+db.add()
+ ↓
+db.commit()
+ ↓
+PostgreSQL
+ ↓
+db.refresh()
+ ↓
+Response
 ```
 
-### `main.py`
+## 🧪 API Documentation
 
-Creates the FastAPI application and registers API routers.
-
-### `database.py`
-
-Handles the PostgreSQL connection, SQLAlchemy engine, and database sessions.
-
-### `models.py`
-
-Contains SQLAlchemy models representing database tables such as `Patient` and `Doctor`.
-
-### `schemas.py`
-
-Contains Pydantic schemas used for request validation and response formatting.
-
-### `routers/`
-
-Contains API endpoints grouped by functionality.
-
-For example:
-
-* Patient CRUD
-* Doctor CRUD
-
-## 👨‍⚕️ Current Features
-
-### Patient Management
-
-* Create a patient
-* Get all patients
-* Get a patient by ID
-* Update a patient
-* Delete a patient
-
-### Doctor Management
-
-* Create a doctor
-* Get all doctors
-* Get a doctor by ID
-* Update a doctor
-* Delete a doctor
-
-## 🔄 CRUD Operations
-
-The API currently demonstrates the four fundamental database operations:
-
-```text
-CREATE → POST
-READ   → GET
-UPDATE → PUT
-DELETE → DELETE
-```
-
-## 📚 Learning Roadmap
-
-The project will continue to grow through the following stages:
-
-```text
-1. Project Structure
-        ↓
-2. PostgreSQL + SQLAlchemy
-        ↓
-3. Patient CRUD
-        ↓
-4. Doctor CRUD
-        ↓
-5. Department + Relationships
-        ↓
-6. Appointment Business Logic
-        ↓
-7. Medical Records
-        ↓
-8. JWT Authentication
-        ↓
-9. Transactions + Error Handling
-        ↓
-10. Sync → Async
-        ↓
-11. Connection Pooling
-        ↓
-12. PgBouncer + Production Architecture
-```
-
-## 🧠 Key Concepts
-
-This project focuses on understanding concepts such as:
-
-* REST APIs
-* HTTP methods
-* Request/response lifecycle
-* Pydantic validation
-* SQLAlchemy ORM
-* Database sessions
-* Transactions
-* `commit()` and `refresh()`
-* PostgreSQL
-* CRUD operations
-* Dependency injection
-* API routing
-* Database relationships
-* Authentication
-* Synchronous vs asynchronous programming
-* Connection pooling
-* Production backend architecture
-
-## ▶️ Running the Project
-
-Clone the repository:
-
-```bash
-git clone <your-repository-url>
-cd hospital_api
-```
-
-Create a virtual environment:
-
-```bash
-python -m venv venv
-```
-
-Activate it on Windows:
-
-```bash
-.\venv\Scripts\Activate.ps1
-```
-
-Install dependencies:
-
-```bash
-pip install fastapi uvicorn sqlalchemy psycopg2-binary
-```
-
-Configure your PostgreSQL database in `database.py`.
-
-Then start the server:
-
-```bash
-uvicorn main:app --reload
-```
-
-The API will be available at:
-
-```text
-http://127.0.0.1:8000
-```
-
-Interactive Swagger API documentation:
+FastAPI provides interactive Swagger UI for testing the endpoints:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-## 🧪 API Testing
+## 📌 Current Status
 
-The API can be tested using FastAPI's built-in Swagger UI.
+The current version includes:
 
-Example:
-
-```text
-POST /patients/
-GET  /patients/
-GET  /patients/{patient_id}
-PUT  /patients/{patient_id}
-DELETE /patients/{patient_id}
-```
-
-and:
-
-```text
-POST /doctors/
-GET  /doctors/
-GET  /doctors/{doctor_id}
-PUT  /doctors/{doctor_id}
-DELETE /doctors/{doctor_id}
-```
-
-## 🎯 Project Purpose
-
-This project is designed to move beyond simply writing CRUD endpoints.
-
-The focus is on understanding **why the code works**, how Python objects move through different components, and how a client request eventually becomes a database operation.
-
-For example:
-
-```text
-JSON
- ↓
-Pydantic Object
- ↓
-SQLAlchemy Object
- ↓
-Database Session
- ↓
-PostgreSQL
- ↓
-SQLAlchemy Object
- ↓
-Response Schema
- ↓
-JSON
-```
-
-## 📌 Project Status
-
-🚧 **Currently in development**
-
-Completed:
-
-* Project structure
-* FastAPI setup
-* PostgreSQL connection
-* SQLAlchemy setup
+* FastAPI project setup
+* PostgreSQL database connection
+* SQLAlchemy configuration
 * Patient CRUD
 * Doctor CRUD
+* Pydantic request/response schemas
+* API testing through Swagger UI
 
-Next:
-
-* Department relationships
-* Appointment business logic
-* Medical records
-* Authentication
-* Advanced database and production concepts
-
----
-
-**Built with Python, FastAPI, SQLAlchemy, and PostgreSQL.**
+**Project is currently under development.**
